@@ -45,3 +45,6 @@ yarn-error.log*
 
 # Contentlayer
 .contentlayer
+
+# Generated tag data
+app/tag-data.json
