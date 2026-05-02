@@ -1,91 +1,157 @@
 import Link from '@/components/Link'
-import Tag from '@/components/Tag'
+import Image from '@/components/Image'
 import siteMetadata from '@/data/siteMetadata'
+import SocialIcon from '@/components/social-icons'
+import NewsletterForm from '@/components/NewsletterForm'
 import { formatDate } from 'pliny/utils/formatDate'
-import NewsletterForm from 'pliny/ui/NewsletterForm'
+import { slug as slugify } from 'github-slugger'
+import tagData from 'app/tag-data.json'
 
-const MAX_DISPLAY = 5
+const MAX_DISPLAY = 8
 
-export default function Home({ posts }) {
+export default function Home({ posts, author }) {
+  const tagCounts = tagData as Record<string, number>
+  const sortedTags = Object.keys(tagCounts).sort((a, b) => tagCounts[b] - tagCounts[a])
+  const displayPosts = posts.slice(0, MAX_DISPLAY)
+
   return (
-    <>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
-            Latest
-          </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.description}
-          </p>
+    <div className="flex flex-col gap-10 pt-8 sm:flex-row sm:gap-12">
+      {/* ─────────── Sidebar ─────────── */}
+      <aside className="shrink-0 sm:sticky sm:top-24 sm:w-64 sm:self-start">
+        <div className="bg-md3-surface-container-low rounded-md3-lg p-6">
+          <div className="flex flex-col items-center text-center">
+            <Image
+              src="/static/images/avatar.png"
+              alt={siteMetadata.author}
+              width={96}
+              height={96}
+              className="rounded-full"
+            />
+            <h2 className="text-md3-title-lg text-md3-on-surface mt-4">
+              {author?.name ?? siteMetadata.author}
+            </h2>
+            {(author?.occupation || author?.company) && (
+              <p className="text-md3-body-sm text-md3-on-surface-variant mt-1">
+                {author.occupation}
+                {author.occupation && author.company && <br />}
+                {author.company}
+              </p>
+            )}
+            <div className="text-md3-on-surface-variant mt-4 flex justify-center gap-2">
+              <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={5} />
+              <SocialIcon kind="github" href={siteMetadata.github} size={5} />
+            </div>
+          </div>
         </div>
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-          {!posts.length && 'No posts found.'}
-          {posts.slice(0, MAX_DISPLAY).map((post) => {
-            const { slug, date, title, summary, tags } = post
-            return (
-              <li key={slug} className="py-12">
-                <article>
-                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                    <dl>
-                      <dt className="sr-only">Published on</dt>
-                      <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
-                        <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
-                      </dd>
-                    </dl>
-                    <div className="space-y-5 xl:col-span-3">
-                      <div className="space-y-6">
-                        <div>
-                          <h2 className="text-2xl leading-8 font-bold tracking-tight">
-                            <Link
-                              href={`/blog/${slug}`}
-                              className="text-gray-900 dark:text-gray-100"
-                            >
-                              {title}
-                            </Link>
-                          </h2>
-                          <div className="flex flex-wrap">
-                            {tags.map((tag) => (
-                              <Tag key={tag} text={tag} />
-                            ))}
-                          </div>
-                        </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
-                        </div>
-                      </div>
-                      <div className="text-base leading-6 font-medium">
-                        <Link
-                          href={`/blog/${slug}`}
-                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                          aria-label={`Read more: "${title}"`}
-                        >
-                          Read more &rarr;
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
-      {posts.length > MAX_DISPLAY && (
-        <div className="flex justify-end text-base leading-6 font-medium">
+
+        {sortedTags.length > 0 && (
+          <div className="mt-6 px-2">
+            <h3 className="text-md3-label-lg text-md3-on-surface-variant mb-3 uppercase">Tags</h3>
+            <ul className="flex flex-wrap gap-2">
+              {sortedTags.map((t) => (
+                <li key={t}>
+                  <Link
+                    href={`/tags/${slugify(t)}`}
+                    className="bg-md3-secondary-container text-md3-on-secondary-container hover:bg-md3-tertiary-container hover:text-md3-on-tertiary-container text-md3-label-md rounded-md3-sm inline-flex h-7 items-center px-2.5 transition-colors"
+                  >
+                    {t} ({tagCounts[t]})
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <nav className="mt-6 flex flex-col px-2">
           <Link
             href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="All posts"
+            className="text-md3-on-surface hover:bg-md3-surface-container text-md3-label-lg rounded-md3-full inline-flex h-10 items-center px-3 transition-colors"
           >
-            All Posts &rarr;
+            All Posts →
           </Link>
+          <Link
+            href="/about"
+            className="text-md3-on-surface hover:bg-md3-surface-container text-md3-label-lg rounded-md3-full inline-flex h-10 items-center px-3 transition-colors"
+          >
+            About
+          </Link>
+          <Link
+            href="/projects"
+            className="text-md3-on-surface hover:bg-md3-surface-container text-md3-label-lg rounded-md3-full inline-flex h-10 items-center px-3 transition-colors"
+          >
+            Projects
+          </Link>
+        </nav>
+      </aside>
+
+      {/* ─────────── Main content ─────────── */}
+      <main className="min-w-0 flex-1">
+        <header className="mb-6 flex items-baseline justify-between">
+          <h1 className="text-md3-headline-md sm:text-md3-headline-lg text-md3-on-surface tracking-tight">
+            최근 글
+          </h1>
+          {posts.length > MAX_DISPLAY && (
+            <Link
+              href="/blog"
+              className="text-md3-primary text-md3-label-lg hover:bg-md3-primary-container rounded-md3-full inline-flex h-9 items-center px-3 transition-colors"
+            >
+              전체 보기 →
+            </Link>
+          )}
+        </header>
+
+        {!posts.length ? (
+          <p className="text-md3-on-surface-variant text-md3-body-lg py-12 text-center">
+            아직 작성된 글이 없습니다.
+          </p>
+        ) : (
+          <ul className="divide-md3-outline-variant divide-y">
+            {displayPosts.map((post) => (
+              <li key={post.slug}>
+                <PostListItem post={post} />
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {siteMetadata.newsletter?.provider && (
+          <div className="bg-md3-surface-container-low rounded-md3-lg mt-12 p-6 sm:p-8">
+            <NewsletterForm />
+          </div>
+        )}
+      </main>
+    </div>
+  )
+}
+
+function PostListItem({ post }) {
+  const { slug, date, title, summary, tags } = post
+  return (
+    <article className="group py-6">
+      <div className="text-md3-label-md text-md3-on-surface-variant mb-2 uppercase">
+        <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+      </div>
+      <h2 className="text-md3-title-lg sm:text-md3-headline-sm tracking-tight">
+        <Link href={`/blog/${slug}`} className="text-md3-on-surface hover:text-md3-primary">
+          {title}
+        </Link>
+      </h2>
+      {summary && (
+        <p className="text-md3-body-md text-md3-on-surface-variant mt-2 line-clamp-2">{summary}</p>
+      )}
+      {tags && tags.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <Link
+              key={tag}
+              href={`/tags/${slugify(tag)}`}
+              className="bg-md3-secondary-container text-md3-on-secondary-container hover:bg-md3-tertiary-container hover:text-md3-on-tertiary-container text-md3-label-md rounded-md3-sm inline-flex h-7 items-center px-2.5 transition-colors"
+            >
+              {tag.split(' ').join('-')}
+            </Link>
+          ))}
         </div>
       )}
-      {siteMetadata.newsletter?.provider && (
-        <div className="flex items-center justify-center pt-4">
-          <NewsletterForm />
-        </div>
-      )}
-    </>
+    </article>
   )
 }

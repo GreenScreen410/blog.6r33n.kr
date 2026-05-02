@@ -7,9 +7,11 @@
  * https://github.com/PrismJS/prism-themes
  */
 
-/* Code title styles */
+/* Code title — matches the dark code block background for a unified bar */
 .remark-code-title {
-  @apply rounded-xs bg-gray-700 px-5 py-3 font-mono text-sm font-bold text-gray-200 dark:bg-gray-800;
+  @apply rounded-t-md3-md px-5 py-3 font-mono text-sm font-bold;
+  background-color: #022c45;
+  color: #d6deeb;
 }
 
 .remark-code-title + div > pre {
@@ -34,11 +36,14 @@
 }
 
 .highlight-line {
-  @apply border-primary-500 -mx-4 border-l-4 bg-gray-700/50;
+  @apply -mx-4 border-l-4;
+  border-left-color: var(--md-sys-color-primary);
+  background-color: rgba(255, 255, 255, 0.06);
 }
 
 .line-number::before {
-  @apply mr-4 -ml-2 inline-block w-4 text-right text-gray-400;
+  @apply mr-4 -ml-2 inline-block w-4 text-right;
+  color: rgb(99, 119, 119);
   content: attr(line);
 }
 

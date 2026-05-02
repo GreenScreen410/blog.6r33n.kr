@@ -48,3 +48,6 @@ yarn-error.log*
 
 # Generated tag data
 app/tag-data.json
+
+# MD3 token generator bundle (transient)
+scripts/.md3-tokens.bundle.mjs

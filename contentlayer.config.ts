@@ -46,19 +46,11 @@ const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
   slug: {
     type: 'string',
-    resolve: (doc) => {
-      const path = doc._raw.flattenedPath.replace(/^.+?(\/)/, '')
-      // 파일명에서 날짜 prefix 제거 (예: 2024-01-15-post-title → post-title)
-      return path.replace(/^\d{4}-\d{2}-\d{2}-/, '')
-    },
+    resolve: (doc) => doc._raw.flattenedPath.replace(/^.+?(\/)/, ''),
   },
   path: {
     type: 'string',
-    resolve: (doc) => {
-      const path = doc._raw.flattenedPath
-      // path에서도 날짜 prefix 제거
-      return path.replace(/(\/)?\d{4}-\d{2}-\d{2}-/, '$1')
-    },
+    resolve: (doc) => doc._raw.flattenedPath,
   },
   filePath: {
     type: 'string',

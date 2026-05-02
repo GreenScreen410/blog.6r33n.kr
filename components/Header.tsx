@@ -7,9 +7,10 @@ import ThemeSwitch from './ThemeSwitch'
 import SearchButton from './SearchButton'
 
 const Header = () => {
-  let headerClass = 'flex items-center w-full bg-white dark:bg-gray-950 justify-between py-10'
+  let headerClass =
+    'flex items-center w-full bg-md3-surface text-md3-on-surface justify-between py-4 border-b border-md3-outline-variant'
   if (siteMetadata.stickyNav) {
-    headerClass += ' sticky top-0 z-50'
+    headerClass += ' sticky top-0 z-50 backdrop-blur-md bg-md3-surface/85'
   }
 
   return (
@@ -20,7 +21,7 @@ const Header = () => {
             <Logo />
           </div>
           {typeof siteMetadata.headerTitle === 'string' ? (
-            <div className="hidden h-6 text-2xl font-semibold sm:block">
+            <div className="text-md3-title-lg text-md3-on-surface hidden sm:block">
               {siteMetadata.headerTitle}
             </div>
           ) : (
@@ -28,20 +29,20 @@ const Header = () => {
           )}
         </div>
       </Link>
-      <div className="flex items-center space-x-4 leading-5 sm:-mr-6 sm:space-x-6">
-        <div className="no-scrollbar hidden max-w-40 items-center gap-x-4 overflow-x-auto sm:flex md:max-w-72 lg:max-w-96">
+      <div className="flex items-center gap-2 sm:-mr-2 sm:gap-3">
+        <nav className="no-scrollbar hidden max-w-40 items-center gap-x-1 overflow-x-auto sm:flex md:max-w-72 lg:max-w-96">
           {headerNavLinks
             .filter((link) => link.href !== '/')
             .map((link) => (
               <Link
                 key={link.title}
                 href={link.href}
-                className="hover:text-primary-500 dark:hover:text-primary-400 m-1 font-medium text-gray-900 dark:text-gray-100"
+                className="hover:bg-md3-surface-container text-md3-on-surface text-md3-label-lg rounded-md3-full px-3 py-2 transition-colors"
               >
                 {link.title}
               </Link>
             ))}
-        </div>
+        </nav>
         <SearchButton />
         <ThemeSwitch />
         <MobileNav />

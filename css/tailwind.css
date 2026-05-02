@@ -1,109 +1,139 @@
 @import 'tailwindcss';
+@import './md3-tokens.css';
 @plugin "@tailwindcss/forms";
 @plugin '@tailwindcss/typography';
 @source '../node_modules/pliny';
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Pretendard Font */
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Thin.woff2') format('woff2');
-  font-weight: 100;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraLight.woff2') format('woff2');
-  font-weight: 200;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Light.woff2') format('woff2');
-  font-weight: 300;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-ExtraBold.woff2') format('woff2');
-  font-weight: 800;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Black.woff2') format('woff2');
-  font-weight: 900;
-  font-display: swap;
-}
-
-/* Core theme configuration */
+/* ─────────────────────────────────────────────────────────────
+   Material Design 3 — typography, shape, elevation, motion tokens
+   Color tokens come from md3-tokens.css (auto-generated).
+   ───────────────────────────────────────────────────────────── */
 @theme {
-  /* Font families */
-  --font-sans: 'Pretendard', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  /* Pretendard Variable — single variable font covering Latin + Korean.
+     Loaded via @import below for dynamic-subset performance. */
+  --font-sans: 'Pretendard Variable', Pretendard, ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-  /* Letter spacing */
-  --letter-spacing-normal: -0.4px;
+  /* MD3 type scale (display / headline / title / body / label) */
+  --text-md3-display-lg: 3.5625rem; /* 57px */
+  --text-md3-display-lg--line-height: 4rem;
+  --text-md3-display-lg--letter-spacing: -0.015625em;
+  --text-md3-display-md: 2.8125rem; /* 45px */
+  --text-md3-display-md--line-height: 3.25rem;
+  --text-md3-display-sm: 2.25rem; /* 36px */
+  --text-md3-display-sm--line-height: 2.75rem;
 
-  /* Colors */
-  /* Copied from https://tailwindcss.com/docs/theme#default-theme-variable-reference */
-  --color-primary-50: oklch(98.2% 0.018 155.826);
-  --color-primary-100: oklch(96.2% 0.044 156.743);
-  --color-primary-200: oklch(92.5% 0.084 155.995);
-  --color-primary-300: oklch(87.1% 0.15 154.449);
-  --color-primary-400: oklch(79.2% 0.209 151.711);
-  --color-primary-500: oklch(72.3% 0.219 149.579);
-  --color-primary-600: oklch(62.7% 0.194 149.214);
-  --color-primary-700: oklch(52.7% 0.154 150.069);
-  --color-primary-800: oklch(44.8% 0.119 151.328);
-  --color-primary-900: oklch(39.3% 0.095 152.535);
-  --color-primary-950: oklch(26.6% 0.065 152.934);
+  --text-md3-headline-lg: 2rem; /* 32px */
+  --text-md3-headline-lg--line-height: 2.5rem;
+  --text-md3-headline-md: 1.75rem; /* 28px */
+  --text-md3-headline-md--line-height: 2.25rem;
+  --text-md3-headline-sm: 1.5rem; /* 24px */
+  --text-md3-headline-sm--line-height: 2rem;
 
-  --color-gray-50: oklch(0.985 0.002 247.839);
-  --color-gray-100: oklch(0.967 0.003 264.542);
-  --color-gray-200: oklch(0.928 0.006 264.531);
-  --color-gray-300: oklch(0.872 0.01 258.338);
-  --color-gray-400: oklch(0.707 0.022 261.325);
-  --color-gray-500: oklch(0.551 0.027 264.364);
-  --color-gray-600: oklch(0.446 0.03 256.802);
-  --color-gray-700: oklch(0.373 0.034 259.733);
-  --color-gray-800: oklch(0.278 0.033 256.848);
-  --color-gray-900: oklch(0.21 0.034 264.665);
-  --color-gray-950: oklch(0.13 0.028 261.692);
+  --text-md3-title-lg: 1.375rem; /* 22px */
+  --text-md3-title-lg--line-height: 1.75rem;
+  --text-md3-title-md: 1rem; /* 16px */
+  --text-md3-title-md--line-height: 1.5rem;
+  --text-md3-title-md--letter-spacing: 0.009375em;
+  --text-md3-title-md--font-weight: 500;
+  --text-md3-title-sm: 0.875rem; /* 14px */
+  --text-md3-title-sm--line-height: 1.25rem;
+  --text-md3-title-sm--letter-spacing: 0.00625em;
+  --text-md3-title-sm--font-weight: 500;
 
-  /* Line heights */
+  --text-md3-body-lg: 1rem; /* 16px */
+  --text-md3-body-lg--line-height: 1.5rem;
+  --text-md3-body-lg--letter-spacing: 0.03125em;
+  --text-md3-body-md: 0.875rem; /* 14px */
+  --text-md3-body-md--line-height: 1.25rem;
+  --text-md3-body-md--letter-spacing: 0.015625em;
+  --text-md3-body-sm: 0.75rem; /* 12px */
+  --text-md3-body-sm--line-height: 1rem;
+  --text-md3-body-sm--letter-spacing: 0.025em;
+
+  --text-md3-label-lg: 0.875rem; /* 14px */
+  --text-md3-label-lg--line-height: 1.25rem;
+  --text-md3-label-lg--letter-spacing: 0.00625em;
+  --text-md3-label-lg--font-weight: 500;
+  --text-md3-label-md: 0.75rem; /* 12px */
+  --text-md3-label-md--line-height: 1rem;
+  --text-md3-label-md--letter-spacing: 0.03125em;
+  --text-md3-label-md--font-weight: 500;
+  --text-md3-label-sm: 0.6875rem; /* 11px */
+  --text-md3-label-sm--line-height: 1rem;
+  --text-md3-label-sm--letter-spacing: 0.03125em;
+  --text-md3-label-sm--font-weight: 500;
+
+  /* MD3 shape (corner radius) */
+  --radius-md3-none: 0px;
+  --radius-md3-xs: 4px;
+  --radius-md3-sm: 8px;
+  --radius-md3-md: 12px;
+  --radius-md3-lg: 16px;
+  --radius-md3-xl: 28px;
+  --radius-md3-full: 9999px;
+
+  /* MD3 elevation — 6 levels combining shadow + tonal surface tint.
+     Use shadow-md3-N alongside bg-md3-surface-container-* for proper effect. */
+  --shadow-md3-0: none;
+  --shadow-md3-1:
+    0 1px 2px 0 rgb(0 0 0 / 0.3), 0 1px 3px 1px rgb(0 0 0 / 0.15);
+  --shadow-md3-2:
+    0 1px 2px 0 rgb(0 0 0 / 0.3), 0 2px 6px 2px rgb(0 0 0 / 0.15);
+  --shadow-md3-3:
+    0 1px 3px 0 rgb(0 0 0 / 0.3), 0 4px 8px 3px rgb(0 0 0 / 0.15);
+  --shadow-md3-4:
+    0 2px 3px 0 rgb(0 0 0 / 0.3), 0 6px 10px 4px rgb(0 0 0 / 0.15);
+  --shadow-md3-5:
+    0 4px 4px 0 rgb(0 0 0 / 0.3), 0 8px 12px 6px rgb(0 0 0 / 0.15);
+
+  /* MD3 motion — easing curves */
+  --ease-md3-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --ease-md3-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-md3-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --ease-md3-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-md3-standard-decelerate: cubic-bezier(0, 0, 0, 1);
+  --ease-md3-standard-accelerate: cubic-bezier(0.3, 0, 1, 1);
+
+  /* MD3 semantic color utilities — auto-switch via :root / .dark vars.
+     Prefer these over primary-* and gray-* for new components. */
+  --color-md3-primary: var(--md-sys-color-primary);
+  --color-md3-on-primary: var(--md-sys-color-on-primary);
+  --color-md3-primary-container: var(--md-sys-color-primary-container);
+  --color-md3-on-primary-container: var(--md-sys-color-on-primary-container);
+  --color-md3-secondary: var(--md-sys-color-secondary);
+  --color-md3-on-secondary: var(--md-sys-color-on-secondary);
+  --color-md3-secondary-container: var(--md-sys-color-secondary-container);
+  --color-md3-on-secondary-container: var(--md-sys-color-on-secondary-container);
+  --color-md3-tertiary: var(--md-sys-color-tertiary);
+  --color-md3-on-tertiary: var(--md-sys-color-on-tertiary);
+  --color-md3-tertiary-container: var(--md-sys-color-tertiary-container);
+  --color-md3-on-tertiary-container: var(--md-sys-color-on-tertiary-container);
+  --color-md3-error: var(--md-sys-color-error);
+  --color-md3-on-error: var(--md-sys-color-on-error);
+  --color-md3-error-container: var(--md-sys-color-error-container);
+  --color-md3-on-error-container: var(--md-sys-color-on-error-container);
+  --color-md3-background: var(--md-sys-color-background);
+  --color-md3-on-background: var(--md-sys-color-on-background);
+  --color-md3-surface: var(--md-sys-color-surface);
+  --color-md3-on-surface: var(--md-sys-color-on-surface);
+  --color-md3-surface-variant: var(--md-sys-color-surface-variant);
+  --color-md3-on-surface-variant: var(--md-sys-color-on-surface-variant);
+  --color-md3-surface-dim: var(--md-sys-color-surface-dim);
+  --color-md3-surface-bright: var(--md-sys-color-surface-bright);
+  --color-md3-surface-container-lowest: var(--md-sys-color-surface-container-lowest);
+  --color-md3-surface-container-low: var(--md-sys-color-surface-container-low);
+  --color-md3-surface-container: var(--md-sys-color-surface-container);
+  --color-md3-surface-container-high: var(--md-sys-color-surface-container-high);
+  --color-md3-surface-container-highest: var(--md-sys-color-surface-container-highest);
+  --color-md3-outline: var(--md-sys-color-outline);
+  --color-md3-outline-variant: var(--md-sys-color-outline-variant);
+  --color-md3-inverse-surface: var(--md-sys-color-inverse-surface);
+  --color-md3-inverse-on-surface: var(--md-sys-color-inverse-on-surface);
+  --color-md3-inverse-primary: var(--md-sys-color-inverse-primary);
+
+  /* Line heights kept from upstream */
   --line-height-11: 2.75rem;
   --line-height-12: 3rem;
   --line-height-13: 3.25rem;
@@ -115,80 +145,138 @@
   --z-80: 80;
 }
 
+/* Pretendard Variable — dynamic subset for fast Korean rendering. */
+@import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
   looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
 */
 @layer base {
-
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-md3-outline-variant, var(--color-gray-200, currentColor));
+  }
+
+  body {
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss03', 'cv03'; /* Pretendard tabular-ish digits */
   }
 
   a,
   button {
-    outline-color: var(--color-primary-500);
+    outline-color: var(--md-sys-color-primary);
   }
 
   a:focus-visible,
   button:focus-visible {
     outline: 2px solid;
-    border-radius: var(--radius-sm);
-    outline-color: var(--color-primary-500);
+    border-radius: var(--radius-md3-xs);
+    outline-color: var(--md-sys-color-primary);
   }
 }
 
 @layer utilities {
   .prose {
     & a {
-      color: var(--color-primary-500);
-
+      color: var(--md-sys-color-primary);
       &:hover {
-        color: var(--color-primary-600);
+        color: var(--md-sys-color-on-primary-container);
       }
-
       & code {
-        color: var(--color-primary-400);
+        color: var(--md-sys-color-primary);
       }
     }
-
     & :where(h1, h2) {
       font-weight: 700;
       letter-spacing: var(--tracking-tight);
     }
-
     & h3 {
       font-weight: 600;
     }
-
     & :where(code):not(pre code) {
-      color: var(--color-indigo-500);
+      color: var(--md-sys-color-on-surface);
+      background-color: var(--md-sys-color-surface-container-high);
+      padding: 0.1875em 0.4em;
+      border-radius: var(--radius-md3-xs);
+      font-weight: 500;
+      font-size: 0.9em;
+    }
+    & :where(code):not(pre code)::before,
+    & :where(code):not(pre code)::after {
+      content: '';
+    }
+    /* Code blocks always use a dark slate background — Night Owl Prism tokens
+       are tuned for dark surfaces and wash out on light/medium MD3 surface. */
+    & :where(pre) {
+      background-color: #011627;
+      color: #d6deeb;
+      border-radius: var(--radius-md3-md);
+      border: 1px solid var(--md-sys-color-outline-variant);
+      padding: 1rem 1.25rem;
+    }
+    & :where(pre code) {
+      background-color: transparent;
+      color: inherit;
+      padding: 0;
+      font-weight: 400;
+      font-size: inherit;
+    }
+    & :where(blockquote) {
+      border-left-color: var(--md-sys-color-primary);
+      background-color: var(--md-sys-color-surface-container-low);
+      border-radius: 0 var(--radius-md3-sm) var(--radius-md3-sm) 0;
+      padding: 0.75rem 1.25rem;
+      color: var(--md-sys-color-on-surface);
+      font-style: normal;
+    }
+    & :where(blockquote p:first-of-type)::before,
+    & :where(blockquote p:last-of-type)::after {
+      content: '';
+    }
+    & :where(img) {
+      border-radius: var(--radius-md3-md);
+    }
+    & :where(hr) {
+      border-color: var(--md-sys-color-outline-variant);
+    }
+    & :where(table) {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    & :where(thead) {
+      background-color: var(--md-sys-color-surface-container-low);
+      color: var(--md-sys-color-on-surface);
+    }
+    & :where(thead th) {
+      padding: 0.75rem 1rem;
+      font-weight: 600;
+      text-align: left;
+    }
+    & :where(tbody td) {
+      padding: 0.75rem 1rem;
+      border-top: 1px solid var(--md-sys-color-outline-variant);
     }
   }
 
   .prose-invert {
     & a {
-      color: var(--color-primary-500);
-
+      color: var(--md-sys-color-primary);
       &:hover {
-        color: var(--color-primary-400);
+        color: var(--md-sys-color-on-primary-container);
       }
-
       & code {
-        color: var(--color-primary-400);
+        color: var(--md-sys-color-primary);
       }
     }
-
     & :where(h1, h2, h3, h4, h5, h6) {
-      color: var(--color-gray-100);
+      color: var(--md-sys-color-on-surface);
     }
   }
 }
@@ -202,7 +290,8 @@
 }
 
 .footnotes {
-  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+  @apply mt-12 border-t pt-8;
+  border-color: var(--md-sys-color-outline-variant);
 }
 
 .data-footnote-backref {
@@ -218,10 +307,8 @@
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 /* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */

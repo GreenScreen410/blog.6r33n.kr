@@ -1,5 +1,6 @@
 'use client'
 
+import type { ReactNode } from 'react'
 import { useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { formatDate } from 'pliny/utils/formatDate'
@@ -20,46 +21,68 @@ interface ListLayoutProps {
   pagination?: PaginationProps
 }
 
+function PageButton({
+  children,
+  href,
+  rel,
+  disabled,
+}: {
+  children: ReactNode
+  href?: string
+  rel?: string
+  disabled?: boolean
+}) {
+  const cls =
+    'border-md3-outline text-md3-on-surface text-md3-label-lg hover:bg-md3-surface-container rounded-md3-full inline-flex h-10 items-center border px-5 transition-colors disabled:opacity-40'
+  if (disabled || !href) {
+    return (
+      <button className={cls} disabled>
+        {children}
+      </button>
+    )
+  }
+  return (
+    <Link href={href} rel={rel} className={cls}>
+      {children}
+    </Link>
+  )
+}
+
 function Pagination({ totalPages, currentPage }: PaginationProps) {
   const pathname = usePathname()
-  const segments = pathname.split('/')
-  const lastSegment = segments[segments.length - 1]
   const basePath = pathname
-    .replace(/^\//, '') // Remove leading slash
-    .replace(/\/page\/\d+\/?$/, '') // Remove any trailing /page
-    .replace(/\/$/, '') // Remove trailing slash
+    .replace(/^\//, '')
+    .replace(/\/page\/\d+\/?$/, '')
+    .replace(/\/$/, '')
   const prevPage = currentPage - 1 > 0
   const nextPage = currentPage + 1 <= totalPages
 
   return (
     <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-      <nav className="flex justify-between">
-        {!prevPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
-            Previous
-          </button>
-        )}
-        {prevPage && (
-          <Link
-            href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
-            rel="prev"
-          >
-            Previous
-          </Link>
-        )}
-        <span>
+      <nav className="flex items-center justify-between">
+        <PageButton
+          href={
+            prevPage
+              ? currentPage - 1 === 1
+                ? `/${basePath}/`
+                : `/${basePath}/page/${currentPage - 1}`
+              : undefined
+          }
+          rel="prev"
+          disabled={!prevPage}
+        >
+          Previous
+        </PageButton>
+        <span className="text-md3-body-md text-md3-on-surface-variant">
           {currentPage} of {totalPages}
         </span>
-        {!nextPage && (
-          <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
-            Next
-          </button>
-        )}
-        {nextPage && (
-          <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-            Next
-          </Link>
-        )}
+        <PageButton
+          href={nextPage ? `/${basePath}/page/${currentPage + 1}` : undefined}
+          rel="next"
+          disabled={!nextPage}
+        >
+          Next
+        </PageButton>
       </nav>
     </div>
   )
@@ -77,15 +100,14 @@ export default function ListLayout({
     return searchContent.toLowerCase().includes(searchValue.toLowerCase())
   })
 
-  // If initialDisplayPosts exist, display it if no searchValue is specified
   const displayPosts =
     initialDisplayPosts.length > 0 && !searchValue ? initialDisplayPosts : filteredBlogPosts
 
   return (
     <>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl leading-9 font-extrabold tracking-tight text-gray-900 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14 dark:text-gray-100">
+      <div className="divide-md3-outline-variant divide-y">
+        <div className="space-y-4 pt-6 pb-8 md:space-y-5">
+          <h1 className="text-md3-headline-lg sm:text-md3-display-sm md:text-md3-display-md text-md3-on-surface tracking-tight">
             {title}
           </h1>
           <div className="relative max-w-lg">
@@ -96,11 +118,11 @@ export default function ListLayout({
                 type="text"
                 onChange={(e) => setSearchValue(e.target.value)}
                 placeholder="Search articles"
-                className="focus:border-primary-500 focus:ring-primary-500 block w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
+                className="border-md3-outline focus:border-md3-primary focus:ring-md3-primary bg-md3-surface-container-low text-md3-on-surface placeholder:text-md3-on-surface-variant rounded-md3-sm text-md3-body-lg block w-full border px-4 py-2.5"
               />
             </label>
             <svg
-              className="absolute top-3 right-3 h-5 w-5 text-gray-400 dark:text-gray-300"
+              className="text-md3-on-surface-variant absolute top-3 right-3 h-5 w-5"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -116,30 +138,37 @@ export default function ListLayout({
           </div>
         </div>
         <ul>
-          {!filteredBlogPosts.length && 'No posts found.'}
+          {!filteredBlogPosts.length && (
+            <li className="text-md3-on-surface-variant py-8">No posts found.</li>
+          )}
           {displayPosts.map((post) => {
             const { path, date, title, summary, tags } = post
             return (
-              <li key={path} className="py-4">
+              <li key={path} className="py-5">
                 <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                   <dl>
                     <dt className="sr-only">Published on</dt>
-                    <dd className="text-base leading-6 font-medium text-gray-500 dark:text-gray-400">
+                    <dd className="text-md3-body-md text-md3-on-surface-variant">
                       <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
                     </dd>
                   </dl>
                   <div className="space-y-3 xl:col-span-3">
                     <div>
-                      <h3 className="text-2xl leading-8 font-bold tracking-tight">
-                        <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
+                      <h3 className="text-md3-headline-sm tracking-tight">
+                        <Link
+                          href={`/${path}`}
+                          className="text-md3-on-surface hover:text-md3-primary"
+                        >
                           {title}
                         </Link>
                       </h3>
-                      <div className="flex flex-wrap">
-                        {tags?.map((tag) => <Tag key={tag} text={tag} />)}
+                      <div className="mt-2 flex flex-wrap">
+                        {tags?.map((tag) => (
+                          <Tag key={tag} text={tag} />
+                        ))}
                       </div>
                     </div>
-                    <div className="prose max-w-none text-gray-500 dark:text-gray-400">
+                    <div className="prose text-md3-on-surface-variant text-md3-body-lg max-w-none">
                       {summary}
                     </div>
                   </div>

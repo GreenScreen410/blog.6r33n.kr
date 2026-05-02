@@ -17,7 +17,7 @@ const Sun = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    className="group:hover:text-gray-100 h-6 w-6"
+    className="h-6 w-6"
   >
     <path
       fillRule="evenodd"
@@ -31,7 +31,7 @@ const Moon = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    className="group:hover:text-gray-100 h-6 w-6"
+    className="h-6 w-6"
   >
     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
   </svg>
@@ -45,7 +45,7 @@ const Monitor = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="group:hover:text-gray-100 h-6 w-6"
+    className="h-6 w-6"
   >
     <rect x="3" y="3" width="14" height="10" rx="2" ry="2"></rect>
     <line x1="7" y1="17" x2="13" y2="17"></line>
@@ -58,38 +58,38 @@ const ThemeSwitch = () => {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme, resolvedTheme } = useTheme()
 
-  // When mounted on client, now we can show the UI
   useEffect(() => setMounted(true), [])
 
   return (
     <div className="flex items-center">
       <Menu as="div" className="relative inline-block text-left">
-        <div className="hover:text-primary-500 dark:hover:text-primary-400 flex items-center justify-center">
-          <MenuButton aria-label="Theme switcher">
-            {mounted ? resolvedTheme === 'dark' ? <Moon /> : <Sun /> : <Blank />}
-          </MenuButton>
-        </div>
+        <MenuButton
+          aria-label="Theme switcher"
+          className="hover:bg-md3-surface-container text-md3-on-surface inline-flex h-10 w-10 items-center justify-center rounded-full transition-colors"
+        >
+          {mounted ? resolvedTheme === 'dark' ? <Moon /> : <Sun /> : <Blank />}
+        </MenuButton>
         <Transition
           as={Fragment}
-          enter="transition ease-out duration-100"
+          enter="transition ease-out duration-150"
           enterFrom="transform opacity-0 scale-95"
           enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
+          leave="transition ease-in duration-100"
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <MenuItems className="ring-opacity-5 absolute right-0 z-50 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white ring-1 shadow-lg ring-black focus:outline-hidden dark:bg-gray-800">
+          <MenuItems className="bg-md3-surface-container-high text-md3-on-surface shadow-md3-2 rounded-md3-sm absolute right-0 z-50 mt-2 w-40 origin-top-right focus:outline-hidden">
             <RadioGroup value={theme} onChange={setTheme}>
               <div className="p-1">
                 <Radio value="light">
                   <MenuItem>
                     {({ focus }) => (
                       <button
-                        className={`${focus ? 'bg-primary-600 text-white' : ''} group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        className={`${focus ? 'bg-md3-secondary-container text-md3-on-secondary-container' : ''} text-md3-label-lg rounded-md3-xs flex w-full items-center px-3 py-2.5 transition-colors`}
                       >
-                        <div className="mr-2">
+                        <span className="mr-3">
                           <Sun />
-                        </div>
+                        </span>
                         Light
                       </button>
                     )}
@@ -99,13 +99,11 @@ const ThemeSwitch = () => {
                   <MenuItem>
                     {({ focus }) => (
                       <button
-                        className={`${
-                          focus ? 'bg-primary-600 text-white' : ''
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        className={`${focus ? 'bg-md3-secondary-container text-md3-on-secondary-container' : ''} text-md3-label-lg rounded-md3-xs flex w-full items-center px-3 py-2.5 transition-colors`}
                       >
-                        <div className="mr-2">
+                        <span className="mr-3">
                           <Moon />
-                        </div>
+                        </span>
                         Dark
                       </button>
                     )}
@@ -115,13 +113,11 @@ const ThemeSwitch = () => {
                   <MenuItem>
                     {({ focus }) => (
                       <button
-                        className={`${
-                          focus ? 'bg-primary-600 text-white' : ''
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                        className={`${focus ? 'bg-md3-secondary-container text-md3-on-secondary-container' : ''} text-md3-label-lg rounded-md3-xs flex w-full items-center px-3 py-2.5 transition-colors`}
                       >
-                        <div className="mr-2">
+                        <span className="mr-3">
                           <Monitor />
-                        </div>
+                        </span>
                         System
                       </button>
                     )}
