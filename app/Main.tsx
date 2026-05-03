@@ -75,12 +75,6 @@ export default function Home({ posts, author }) {
           >
             About
           </Link>
-          <Link
-            href="/projects"
-            className="text-md3-on-surface hover:bg-md3-surface-container text-md3-label-lg rounded-md3-full inline-flex h-10 items-center px-3 transition-colors"
-          >
-            Projects
-          </Link>
         </nav>
       </aside>
 
