@@ -240,7 +240,20 @@
     & :where(blockquote p:last-of-type)::after {
       content: '';
     }
-    & :where(img) {
+    /* Inline images (badges, icons in a row) — override Tailwind preflight's
+       default `display: block` so consecutive images flow on one line. */
+    & :where(p img),
+    & :where(p a img) {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 2px 0 0;
+      border-radius: 0;
+    }
+    /* Standalone images (only child of paragraph) — keep block + MD3 rounded. */
+    & :where(p > img:only-child),
+    & :where(p > a:only-child > img:only-child) {
+      display: block;
+      margin: 1.5em auto;
       border-radius: var(--radius-md3-md);
     }
     & :where(hr) {
