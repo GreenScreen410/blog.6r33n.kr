@@ -7,8 +7,10 @@ import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import Image from '@/components/Image'
 import Tag from '@/components/Tag'
+import DraftBadge from '@/components/DraftBadge'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import ReadingProgress from '@/components/ReadingProgress'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 const discussUrl = (path) =>
@@ -30,11 +32,13 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags } = content
+  const { filePath, path, slug, date, title, tags, draft, readingTime } = content
   const basePath = path.split('/')[0]
+  const readMinutes = readingTime ? Math.max(1, Math.ceil(readingTime.minutes)) : null
 
   return (
     <SectionContainer>
+      <ReadingProgress />
       <ScrollTopAndComment />
       <article>
         <div className="xl:divide-md3-outline-variant xl:divide-y">
@@ -43,10 +47,12 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               <dl className="space-y-10">
                 <div>
                   <dt className="sr-only">Published on</dt>
-                  <dd className="text-md3-body-md text-md3-on-surface-variant">
+                  <dd className="text-md3-body-md text-md3-on-surface-variant flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
                     <time dateTime={date}>
                       {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
                     </time>
+                    {readMinutes && <span aria-label="Reading time">· {readMinutes}분 읽기</span>}
+                    <DraftBadge draft={draft} />
                   </dd>
                 </div>
               </dl>

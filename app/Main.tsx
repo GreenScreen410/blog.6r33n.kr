@@ -1,5 +1,6 @@
 import Link from '@/components/Link'
 import Image from '@/components/Image'
+import DraftBadge from '@/components/DraftBadge'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
 import NewsletterForm from '@/components/NewsletterForm'
@@ -119,11 +120,12 @@ export default function Home({ posts, author }) {
 }
 
 function PostListItem({ post }) {
-  const { slug, date, title, summary, tags } = post
+  const { slug, date, title, summary, tags, draft } = post
   return (
     <article className="group py-6">
-      <div className="text-md3-label-md text-md3-on-surface-variant mb-2 uppercase">
+      <div className="text-md3-label-md text-md3-on-surface-variant mb-2 flex items-center gap-2 uppercase">
         <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+        <DraftBadge draft={draft} />
       </div>
       <h2 className="text-md3-title-lg sm:text-md3-headline-sm tracking-tight">
         <Link href={`/blog/${slug}`} className="text-md3-on-surface hover:text-md3-primary">

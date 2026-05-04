@@ -7,6 +7,7 @@ import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
+import DraftBadge from '@/components/DraftBadge'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
 
@@ -127,16 +128,17 @@ export default function ListLayoutWithTags({
           <div className="min-w-0 flex-1">
             <ul className="divide-md3-outline-variant divide-y">
               {displayPosts.map((post) => {
-                const { path, date, title, summary, tags } = post
+                const { path, date, title, summary, tags, draft } = post
                 return (
                   <li key={path} className="py-6">
                     <article className="flex flex-col space-y-2 xl:space-y-0">
                       <dl>
                         <dt className="sr-only">Published on</dt>
-                        <dd className="text-md3-body-md text-md3-on-surface-variant">
+                        <dd className="text-md3-body-md text-md3-on-surface-variant flex items-center gap-2">
                           <time dateTime={date} suppressHydrationWarning>
                             {formatDate(date, siteMetadata.locale)}
                           </time>
+                          <DraftBadge draft={draft} />
                         </dd>
                       </dl>
                       <div className="space-y-3">
