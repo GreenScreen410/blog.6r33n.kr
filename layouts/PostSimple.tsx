@@ -8,6 +8,7 @@ import PageTitle from '@/components/PageTitle'
 import SectionContainer from '@/components/SectionContainer'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import ReadingProgress from '@/components/ReadingProgress'
 
 interface LayoutProps {
   content: CoreContent<Blog>
@@ -17,10 +18,12 @@ interface LayoutProps {
 }
 
 export default function PostLayout({ content, next, prev, children }: LayoutProps) {
-  const { path, slug, date, title } = content
+  const { path, slug, date, title, readingTime } = content
+  const readMinutes = readingTime ? Math.max(1, Math.ceil(readingTime.minutes)) : null
 
   return (
     <SectionContainer>
+      <ReadingProgress />
       <ScrollTopAndComment />
       <article>
         <div>
@@ -29,8 +32,9 @@ export default function PostLayout({ content, next, prev, children }: LayoutProp
               <dl>
                 <div>
                   <dt className="sr-only">Published on</dt>
-                  <dd className="text-md3-body-md text-md3-on-surface-variant">
+                  <dd className="text-md3-body-md text-md3-on-surface-variant flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
                     <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                    {readMinutes && <span>· {readMinutes}분 읽기</span>}
                   </dd>
                 </div>
               </dl>
