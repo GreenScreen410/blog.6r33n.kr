@@ -14,6 +14,7 @@ import {
   remarkImgToJsx,
   extractTocHeadings,
 } from 'pliny/mdx-plugins/index.js'
+import rehypeEmoji from './lib/rehype-emoji.mjs'
 // Rehype packages
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -46,11 +47,12 @@ const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
   slug: {
     type: 'string',
-    resolve: (doc) => doc._raw.flattenedPath.replace(/^.+?(\/)/, ''),
+    resolve: (doc) =>
+      doc._raw.flattenedPath.replace(/^.+?(\/)/, '').replace(/^\d{4}-\d{2}-\d{2}-/, ''),
   },
   path: {
     type: 'string',
-    resolve: (doc) => doc._raw.flattenedPath,
+    resolve: (doc) => doc._raw.flattenedPath.replace(/^(.+?\/)\d{4}-\d{2}-\d{2}-/, '$1'),
   },
   filePath: {
     type: 'string',
@@ -176,6 +178,9 @@ export default makeSource({
       rehypeKatexNoTranslate,
       [rehypeCitation, { path: path.join(root, 'data') }],
       [rehypePrismPlus, { defaultLanguage: 'js', ignoreMissing: true }],
+      // After Prism so code is already wrapped and can be skipped wholesale,
+      // and before minify so it sees the emoji as ordinary inline <img>.
+      rehypeEmoji,
       rehypePresetMinify,
     ],
   },

@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "start": "next dev",
-    "dev": "cross-env INIT_CWD=$PWD next dev",
-    "build": "cross-env INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
+    "dev": "yarn sync-emoji && cross-env INIT_CWD=$PWD next dev",
+    "build": "yarn sync-emoji && cross-env INIT_CWD=$PWD next build && cross-env NODE_OPTIONS='--experimental-json-modules' node ./scripts/postbuild.mjs",
     "serve": "next start",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint --fix --dir pages --dir app --dir components --dir lib --dir layouts --dir scripts",
     "gen:md3": "esbuild scripts/generate-md3-tokens.mjs --bundle --platform=node --format=esm --outfile=scripts/.md3-tokens.bundle.mjs && node scripts/.md3-tokens.bundle.mjs",
+    "upload-image": "node --env-file=.env.local scripts/upload-image.mjs",
+    "sync-emoji": "node scripts/sync-emoji.mjs",
     "prepare": "husky"
   },
   "dependencies": {
@@ -52,6 +54,7 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.1086.0",
     "@eslint/eslintrc": "^3.3.3",
     "@eslint/js": "^9.18.0",
     "@svgr/webpack": "^8.1.0",

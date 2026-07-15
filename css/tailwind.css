@@ -249,10 +249,39 @@
       margin: 0 2px 0 0;
       border-radius: 0;
     }
-    /* Standalone images (only child of paragraph) — keep block + MD3 rounded. */
+    /* Blob emoji (lib/rehype-emoji.mjs) — images that have to read as glyphs,
+       so they track the font size and sit on the text baseline. Beats the
+       standalone-image rule below, which would otherwise turn an emoji alone in
+       a paragraph into a 720px block. */
+    & img.emoji {
+      display: inline-block;
+      width: auto;
+      height: 1.25em;
+      max-width: none;
+      max-height: none;
+      vertical-align: -0.25em;
+      margin: 0 0.05em;
+      border-radius: 0;
+    }
+    /* Standalone images (only child of paragraph) — keep block + MD3 rounded.
+       Capped below the (max-w-none) article column so screenshots don't
+       stretch edge-to-edge across the full reading width. */
     & :where(p > img:only-child),
     & :where(p > a:only-child > img:only-child) {
       display: block;
+      width: auto;
+      max-width: 720px;
+      max-height: 720px;
+      margin: 1.5em auto;
+      border-radius: var(--radius-md3-md);
+    }
+    /* Hand-written <Image> JSX in mdx compiles as a flow sibling of
+       paragraphs (not nested inside a <p>), so it needs its own rule. */
+    & > img {
+      display: block;
+      width: auto;
+      max-width: 720px;
+      max-height: 720px;
       margin: 1.5em auto;
       border-radius: var(--radius-md3-md);
     }

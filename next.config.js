@@ -78,6 +78,10 @@ module.exports = () => {
           protocol: 'https',
           hostname: 'picsum.photos',
         },
+        {
+          protocol: 'https',
+          hostname: 'img.6r33n.kr',
+        },
       ],
       unoptimized,
     },
