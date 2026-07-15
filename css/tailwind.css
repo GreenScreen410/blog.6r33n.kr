@@ -264,13 +264,14 @@
       border-radius: 0;
     }
     /* Standalone images (only child of paragraph) — keep block + MD3 rounded.
-       Capped below the (max-w-none) article column so screenshots don't
-       stretch edge-to-edge across the full reading width. */
+       `min(100%, 720px)` caps the width below the (max-w-none) article column on
+       desktop, while still shrinking to the container on a narrow phone — a bare
+       `max-width: 720px` let intrinsic-width images overflow the viewport. */
     & :where(p > img:only-child),
     & :where(p > a:only-child > img:only-child) {
       display: block;
       width: auto;
-      max-width: 720px;
+      max-width: min(100%, 720px);
       max-height: 720px;
       margin: 1.5em auto;
       border-radius: var(--radius-md3-md);
@@ -280,7 +281,7 @@
     & > img {
       display: block;
       width: auto;
-      max-width: 720px;
+      max-width: min(100%, 720px);
       max-height: 720px;
       margin: 1.5em auto;
       border-radius: var(--radius-md3-md);
